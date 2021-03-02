@@ -98,6 +98,7 @@ int MenuPrompt()
 
   if (userSelection == 0)
   {
+    Console.WriteLine("Goodbye!");
     Environment.Exit(0);
   }
   return userSelection;
