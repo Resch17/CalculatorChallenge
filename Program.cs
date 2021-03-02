@@ -139,6 +139,7 @@ Result Operate(int operation, double firstNumber, double secondNumber, string us
   {
     return $"The result of {op} {firstNumber} and {secondNumber} is {result}.";
   }
+
   switch (operation)
   {
     case Operations.ADD:
@@ -167,21 +168,14 @@ Result Operate(int operation, double firstNumber, double secondNumber, string us
       break;
     case Operations.ADV:
       int opInput = 0;
-      switch (userOperator)
+      opInput = userOperator switch
       {
-        case "+":
-          opInput = Operations.ADD;
-          break;
-        case "-":
-          opInput = Operations.SUB;
-          break;
-        case "*":
-          opInput = Operations.MULT;
-          break;
-        case "/":
-          opInput = Operations.DIV;
-          break;
-      }
+        "+" => Operations.ADD,
+        "-" => Operations.SUB,
+        "*" => Operations.MULT,
+        "/" => Operations.DIV,
+        _ => 0
+      };
       answer = Operate(opInput, firstNumber, secondNumber, userOperator);
       break;
   }
