@@ -31,6 +31,34 @@ void Main()
       Console.WriteLine($"The square root of {userNumbers.Num1} is {result.Value}.");
       Console.WriteLine("Press any key to continue...");
     }
+    else if (userSelection == 7)
+    {
+      string operation = userNumbers.Operator;
+      Result result = null;
+      switch (operation)
+      {
+        case "+":
+          result = Operate(1, userNumbers.Num1, userNumbers.Num2);
+          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+          Console.WriteLine("Press any key to continue...");
+          break;
+        case "-":
+          result = Operate(2, userNumbers.Num1, userNumbers.Num2);
+          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+          Console.WriteLine("Press any key to continue...");
+          break;
+        case "*":
+          result = Operate(3, userNumbers.Num1, userNumbers.Num2);
+          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+          Console.WriteLine("Press any key to continue...");
+          break;
+        case "/":
+          result = Operate(4, userNumbers.Num1, userNumbers.Num2);
+          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+          Console.WriteLine("Press any key to continue...");
+          break;
+      }
+    }
     Console.ReadKey();
     Console.Clear();
     Main();
@@ -50,11 +78,12 @@ int MenuPrompt()
 4) Divide two numbers
 5) Square one number
 6) Square root of one number
+7) ADVANCED MODE
 0) Exit");
   string userInput = Console.ReadLine();
   int userSelection = 99;
 
-  if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "5" || userInput == "6" || userInput == "0")
+  if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "5" || userInput == "6" || userInput == "7" || userInput == "0")
   {
     userSelection = Int32.Parse(userInput);
   }
@@ -92,8 +121,61 @@ NumbersInput NumberPrompt(int userMode)
       firstNumber = Double.Parse(words[0]);
       secondNumber = Double.Parse(words[1]);
       return new NumbersInput(
-          firstNumber, secondNumber
+          firstNumber, secondNumber, null
       );
+    }
+    catch
+    {
+      Console.WriteLine("Invalid entry. Please try again.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      return null;
+    }
+  }
+  else if (userMode == 5 || userMode == 6)
+  {
+    double firstNumber = 0;
+    Console.Write("Please enter the number: ");
+    string userInput = Console.ReadLine();
+
+    try
+    {
+      firstNumber = Double.Parse(userInput);
+      return new NumbersInput(firstNumber, 0, null);
+    }
+    catch
+    {
+      Console.WriteLine("Invalid entry. Please try again.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      return null;
+    }
+  }
+  else if (userMode == 7)
+  {
+    double firstNumber = 0;
+    double secondNumber = 0;
+    string op = null;
+
+    Console.Write("Please enter two numbers with spaces and a valid operator in-between (eg. \"2 + 2\"): ");
+    string userInput = Console.ReadLine();
+    try
+    {
+      string[] splitUp = userInput.Split(' ');
+      firstNumber = Double.Parse(splitUp[0]);
+      op = splitUp[1];
+      secondNumber = Double.Parse(splitUp[2]);
+      if (op != "+" && op != "-" && op != "*" && op != "/")
+      {
+        throw new Exception("Invalid operator.");
+      }
+      else
+      {
+
+        return new NumbersInput(firstNumber, secondNumber, op);
+      }
     }
     catch
     {
@@ -106,23 +188,7 @@ NumbersInput NumberPrompt(int userMode)
   }
   else
   {
-    double firstNumber = 0;
-    Console.WriteLine("Please enter the number: ");
-    string userInput = Console.ReadLine();
-
-    try
-    {
-      firstNumber = Double.Parse(userInput);
-      return new NumbersInput(firstNumber, 0);
-    }
-    catch
-    {
-      Console.WriteLine("Invalid entry. Please try again.");
-      Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
-      return null;
-    }
+    return null;
   }
 }
 
@@ -164,12 +230,16 @@ public class NumbersInput
   public double Num1 { get; set; }
   public double Num2 { get; set; }
 
-  public NumbersInput(double number1, double number2)
+  public string Operator { get; set; }
+
+  public NumbersInput(double number1, double number2, string op)
   {
     this.Num1 = number1;
     this.Num2 = number2;
+    this.Operator = op;
   }
 }
+
 
 public static class Calculator
 {
