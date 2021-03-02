@@ -5,28 +5,35 @@ Main();
 void Main()
 {
   int userSelection = MenuPrompt();
-  NumbersInput userNumbers = NumberPrompt();
+  NumbersInput userNumbers = NumberPrompt(userSelection);
   if (userNumbers != null)
   {
-
     if (userSelection == 4 && userNumbers.Num2 == 0)
     {
       Console.WriteLine("Nah, you can't divide by zero.");
       Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
-      Main();
     }
-    else
+    else if (userSelection <= 4)
     {
-
       Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
       Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
       Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
-      Main();
     }
+    else if (userSelection == 5)
+    {
+      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} is {result.Value}.");
+      Console.WriteLine("Press any key to continue...");
+    }
+    else if (userSelection == 6)
+    {
+      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
+      Console.WriteLine($"The square root of {userNumbers.Num1} is {result.Value}.");
+      Console.WriteLine("Press any key to continue...");
+    }
+    Console.ReadKey();
+    Console.Clear();
+    Main();
   }
   else
   {
@@ -41,11 +48,13 @@ int MenuPrompt()
 2) Subtract two numbers
 3) Multiply two numbers
 4) Divide two numbers
+5) Square one number
+6) Square root of one number
 0) Exit");
   string userInput = Console.ReadLine();
   int userSelection = 99;
 
-  if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "0")
+  if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "5" || userInput == "6" || userInput == "0")
   {
     userSelection = Int32.Parse(userInput);
   }
@@ -65,31 +74,55 @@ int MenuPrompt()
   return userSelection;
 }
 
-NumbersInput NumberPrompt()
+NumbersInput NumberPrompt(int userMode)
 {
   Console.Clear();
-  double firstNumber = 0;
-  double secondNumber = 0;
-
-  Console.Write("Please enter two numbers with a space in-between: ");
-  string userInput = Console.ReadLine();
-
-  try
+  if (userMode <= 4)
   {
-    string[] words = userInput.Split(' ');
-    firstNumber = Double.Parse(words[0]);
-    secondNumber = Double.Parse(words[1]);
-    return new NumbersInput(
-        firstNumber, secondNumber
-    );
+
+    double firstNumber = 0;
+    double secondNumber = 0;
+
+    Console.Write("Please enter two numbers with a space in-between: ");
+    string userInput = Console.ReadLine();
+
+    try
+    {
+      string[] words = userInput.Split(' ');
+      firstNumber = Double.Parse(words[0]);
+      secondNumber = Double.Parse(words[1]);
+      return new NumbersInput(
+          firstNumber, secondNumber
+      );
+    }
+    catch
+    {
+      Console.WriteLine("Invalid entry. Please try again.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      return null;
+    }
   }
-  catch
+  else
   {
-    Console.WriteLine("Invalid entry. Please try again.");
-    Console.WriteLine("Press any key to continue...");
-    Console.ReadKey();
-    Console.Clear();
-    return null;
+    double firstNumber = 0;
+    Console.WriteLine("Please enter the number: ");
+    string userInput = Console.ReadLine();
+
+    try
+    {
+      firstNumber = Double.Parse(userInput);
+      return new NumbersInput(firstNumber, 0);
+    }
+    catch
+    {
+      Console.WriteLine("Invalid entry. Please try again.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      return null;
+    }
   }
 }
 
@@ -113,6 +146,14 @@ Result Operate(int operation, double firstNumber, double secondNumber)
     case 4:
       answer.Value = Calculator.Divide(firstNumber, secondNumber);
       answer.Operation = "dividing";
+      break;
+    case 5:
+      answer.Value = Calculator.Square(firstNumber);
+      answer.Operation = "squaring";
+      break;
+    case 6:
+      answer.Value = Calculator.Sqrt(firstNumber);
+      answer.Operation = "square-rooting";
       break;
   }
   return answer;
@@ -147,6 +188,14 @@ public static class Calculator
   public static double Divide(double num1, double num2)
   {
     return num1 / num2;
+  }
+  public static double Square(double num1)
+  {
+    return num1 * num1;
+  }
+  public static double Sqrt(double num1)
+  {
+    return Math.Sqrt(num1);
   }
 }
 
