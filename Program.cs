@@ -7,9 +7,22 @@ void Main()
 {
   int userSelection = MenuPrompt();
   NumbersInput userNumbers = NumberPrompt();
-  int result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-  Console.WriteLine($"Your answer is {result}.");
+  if (userSelection == 4 && userNumbers.Num2 == 0)
+  {
+    Console.WriteLine("Nah, you can't divide by zero.");
+    Thread.Sleep(3000);
+    Console.Clear();
+    Main();
+  }
+  else
+  {
+
+    Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
+    Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+  }
 }
+
+
 
 int MenuPrompt()
 {
@@ -48,43 +61,79 @@ NumbersInput NumberPrompt()
   string num1Input = Console.ReadLine();
   Console.Write("Please enter the second number: ");
   string num2Input = Console.ReadLine();
-  int firstNumber = Int32.Parse(num1Input);
-  int secondNumber = Int32.Parse(num2Input);
+  double firstNumber = Double.Parse(num1Input);
+  double secondNumber = Double.Parse(num2Input);
 
   return new NumbersInput(
       firstNumber, secondNumber
   );
 }
 
-int Operate(int operation, int firstNumber, int secondNumber)
+Result Operate(int operation, double firstNumber, double secondNumber)
 {
-  int result = 0;
+  Result answer = new Result("blank", 0);
   switch (operation)
   {
     case 1:
-      result = firstNumber + secondNumber;
+      answer.Value = Calculator.Add(firstNumber, secondNumber);
+      answer.Operation = "adding";
       break;
     case 2:
-      result = firstNumber - secondNumber;
+      answer.Value = Calculator.Subtract(firstNumber, secondNumber);
+      answer.Operation = "subtracting";
       break;
     case 3:
-      result = firstNumber * secondNumber;
+      answer.Value = Calculator.Multiply(firstNumber, secondNumber);
+      answer.Operation = "multiplying";
       break;
     case 4:
-      result = firstNumber / secondNumber;
+      answer.Value = Calculator.Divide(firstNumber, secondNumber);
+      answer.Operation = "dividing";
       break;
   }
-  return result;
+  return answer;
 }
 
 public class NumbersInput
 {
-  public int Num1 { get; set; }
-  public int Num2 { get; set; }
+  public double Num1 { get; set; }
+  public double Num2 { get; set; }
 
-  public NumbersInput(int number1, int number2)
+  public NumbersInput(double number1, double number2)
   {
     this.Num1 = number1;
     this.Num2 = number2;
+  }
+}
+
+public static class Calculator
+{
+  public static double Add(double num1, double num2)
+  {
+    return num1 + num2;
+  }
+  public static double Subtract(double num1, double num2)
+  {
+    return num1 - num2;
+  }
+  public static double Multiply(double num1, double num2)
+  {
+    return num1 * num2;
+  }
+  public static double Divide(double num1, double num2)
+  {
+    return num1 / num2;
+  }
+}
+
+public class Result
+{
+  public string Operation { get; set; }
+  public double Value { get; set; }
+
+  public Result(string operation, double value)
+  {
+    this.Operation = operation;
+    this.Value = value;
   }
 }
