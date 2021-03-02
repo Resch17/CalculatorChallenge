@@ -71,17 +71,14 @@ NumbersInput NumberPrompt()
   double firstNumber = 0;
   double secondNumber = 0;
 
-  Console.Write("Please enter the first number: ");
-  string num1Input = Console.ReadLine();
-
-  Console.Write("Please enter the second number: ");
-  string num2Input = Console.ReadLine();
+  Console.Write("Please enter two numbers with a space in-between: ");
+  string userInput = Console.ReadLine();
 
   try
   {
-
-    firstNumber = Double.Parse(num1Input);
-    secondNumber = Double.Parse(num2Input);
+    string[] words = userInput.Split(' ');
+    firstNumber = Double.Parse(words[0]);
+    secondNumber = Double.Parse(words[1]);
     return new NumbersInput(
         firstNumber, secondNumber
     );
