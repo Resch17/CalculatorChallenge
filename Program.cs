@@ -80,10 +80,7 @@ int MenuPrompt()
   }
   else
   {
-    Console.WriteLine("Invalid Selection");
-    Console.WriteLine("Press any key to continue...");
-    Console.ReadKey();
-    Console.Clear();
+    InvalidEntry();
     MenuPrompt();
   }
 
@@ -115,10 +112,7 @@ NumbersInput NumberPrompt(int userMode)
     }
     catch
     {
-      Console.WriteLine("Invalid entry. Please try again.");
-      Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
+      InvalidEntry();
       return null;
     }
   }
@@ -134,10 +128,7 @@ NumbersInput NumberPrompt(int userMode)
     }
     catch
     {
-      Console.WriteLine("Invalid entry. Please try again.");
-      Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
+      InvalidEntry();
       return null;
     }
   }
@@ -165,10 +156,7 @@ NumbersInput NumberPrompt(int userMode)
     }
     catch
     {
-      Console.WriteLine("Invalid entry. Please try again.");
-      Console.WriteLine("Press any key to continue...");
-      Console.ReadKey();
-      Console.Clear();
+      InvalidEntry();
       return null;
     }
   }
@@ -211,6 +199,14 @@ Result Operate(int operation, double firstNumber, double secondNumber)
   return answer;
 }
 
+void InvalidEntry()
+{
+  Console.WriteLine("Invalid entry. Please try again.");
+  Console.WriteLine("Press any key to continue...");
+  Console.ReadKey();
+  Console.Clear();
+}
+
 public class NumbersInput
 {
   public double Num1 { get; set; }
@@ -223,7 +219,6 @@ public class NumbersInput
     this.Operator = op;
   }
 }
-
 
 public static class Calculator
 {
