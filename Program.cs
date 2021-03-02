@@ -8,46 +8,14 @@ void Main()
   NumbersInput userNumbers = NumberPrompt(userSelection);
   if (userNumbers != null)
   {
+    Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2, userNumbers.Operator);
     if (userSelection == Operations.DIV && userNumbers.Num2 == 0)
     {
       Console.WriteLine("Nah, you can't divide by zero.");
     }
-    else if (userSelection <= Operations.DIV)
+    else if (userSelection <= Operations.ADV)
     {
-      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-    }
-    else if (userSelection == Operations.SQ)
-    {
-      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} is {result.Value}.");
-    }
-    else if (userSelection == Operations.SQRT)
-    {
-      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The square root of {userNumbers.Num1} is {result.Value}.");
-    }
-    else if (userSelection == 7)
-    {
-      string operation = userNumbers.Operator;
-      int opInput = 0;
-      switch (operation)
-      {
-        case "+":
-          opInput = Operations.ADD;
-          break;
-        case "-":
-          opInput = Operations.SUB;
-          break;
-        case "*":
-          opInput = Operations.MULT;
-          break;
-        case "/":
-          opInput = Operations.DIV;
-          break;
-      }
-      Result result = Operate(opInput, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+      Console.WriteLine(result.Message);
     }
     Console.WriteLine("Press any key to continue...");
     Console.ReadKey();
@@ -73,7 +41,6 @@ int MenuPrompt()
 0) Exit");
   string userInput = Console.ReadLine();
   int userSelection = 99;
-
   if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4" || userInput == "5" || userInput == "6" || userInput == "7" || userInput == "0")
   {
     userSelection = Int32.Parse(userInput);
@@ -83,7 +50,6 @@ int MenuPrompt()
     InvalidEntry();
     MenuPrompt();
   }
-
   if (userSelection == 0)
   {
     Console.WriteLine("Goodbye!");
@@ -132,7 +98,7 @@ NumbersInput NumberPrompt(int userMode)
       return null;
     }
   }
-  else if (userMode == 7)
+  else if (userMode == Operations.ADV)
   {
     double firstNumber = 0;
     double secondNumber = 0;
@@ -166,9 +132,13 @@ NumbersInput NumberPrompt(int userMode)
   }
 }
 
-Result Operate(int operation, double firstNumber, double secondNumber)
+Result Operate(int operation, double firstNumber, double secondNumber, string userOperator)
 {
-  Result answer = new Result("blank", 0);
+  Result answer = new Result(null, 0, null);
+  string stdMessage(string op, double result)
+  {
+    return $"The result of {op} {firstNumber} and {secondNumber} is {result}.";
+  }
   switch (operation)
   {
     case Operations.ADD:
@@ -189,12 +159,35 @@ Result Operate(int operation, double firstNumber, double secondNumber)
       break;
     case Operations.SQ:
       answer.Value = Calculator.Square(firstNumber);
-      answer.Operation = "squaring";
+      answer.Message = $"The result of squaring {firstNumber} is {answer.Value}.";
       break;
     case Operations.SQRT:
       answer.Value = Calculator.Sqrt(firstNumber);
-      answer.Operation = "square-rooting";
+      answer.Message = $"The square root of {firstNumber} is {answer.Value}.";
       break;
+    case Operations.ADV:
+      int opInput = 0;
+      switch (userOperator)
+      {
+        case "+":
+          opInput = Operations.ADD;
+          break;
+        case "-":
+          opInput = Operations.SUB;
+          break;
+        case "*":
+          opInput = Operations.MULT;
+          break;
+        case "/":
+          opInput = Operations.DIV;
+          break;
+      }
+      answer = Operate(opInput, firstNumber, secondNumber, userOperator);
+      break;
+  }
+  if (operation <= Operations.DIV)
+  {
+    answer.Message = stdMessage(answer.Operation, answer.Value);
   }
   return answer;
 }
@@ -252,10 +245,12 @@ public class Result
 {
   public string Operation { get; set; }
   public double Value { get; set; }
-  public Result(string operation, double value)
+  public string Message { get; set; }
+  public Result(string operation, double value, string message)
   {
     this.Operation = operation;
     this.Value = value;
+    this.Message = message;
   }
 }
 
@@ -267,4 +262,5 @@ public class Operations
   public const int DIV = 4;
   public const int SQ = 5;
   public const int SQRT = 6;
+  public const int ADV = 7;
 }
