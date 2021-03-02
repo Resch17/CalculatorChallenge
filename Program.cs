@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 Main();
 
@@ -7,22 +6,33 @@ void Main()
 {
   int userSelection = MenuPrompt();
   NumbersInput userNumbers = NumberPrompt();
-  if (userSelection == 4 && userNumbers.Num2 == 0)
+  if (userNumbers != null)
   {
-    Console.WriteLine("Nah, you can't divide by zero.");
-    Thread.Sleep(3000);
-    Console.Clear();
-    Main();
+
+    if (userSelection == 4 && userNumbers.Num2 == 0)
+    {
+      Console.WriteLine("Nah, you can't divide by zero.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      Main();
+    }
+    else
+    {
+
+      Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+      Console.WriteLine("Press any key to continue...");
+      Console.ReadKey();
+      Console.Clear();
+      Main();
+    }
   }
   else
   {
-
-    Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-    Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+    Main();
   }
 }
-
-
 
 int MenuPrompt()
 {
@@ -42,7 +52,8 @@ int MenuPrompt()
   else
   {
     Console.WriteLine("Invalid Selection");
-    Thread.Sleep(2000);
+    Console.WriteLine("Press any key to continue...");
+    Console.ReadKey();
     Console.Clear();
     MenuPrompt();
   }
@@ -57,16 +68,32 @@ int MenuPrompt()
 NumbersInput NumberPrompt()
 {
   Console.Clear();
+  double firstNumber = 0;
+  double secondNumber = 0;
+
   Console.Write("Please enter the first number: ");
   string num1Input = Console.ReadLine();
+
   Console.Write("Please enter the second number: ");
   string num2Input = Console.ReadLine();
-  double firstNumber = Double.Parse(num1Input);
-  double secondNumber = Double.Parse(num2Input);
 
-  return new NumbersInput(
-      firstNumber, secondNumber
-  );
+  try
+  {
+
+    firstNumber = Double.Parse(num1Input);
+    secondNumber = Double.Parse(num2Input);
+    return new NumbersInput(
+        firstNumber, secondNumber
+    );
+  }
+  catch
+  {
+    Console.WriteLine("Invalid entry. Please try again.");
+    Console.WriteLine("Press any key to continue...");
+    Console.ReadKey();
+    Console.Clear();
+    return null;
+  }
 }
 
 Result Operate(int operation, double firstNumber, double secondNumber)
