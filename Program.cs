@@ -137,7 +137,7 @@ NumbersInput NumberPrompt(int userMode)
     double firstNumber = 0;
     double secondNumber = 0;
     string op = null;
-    Console.Write("Please enter two numbers with spaces and a valid operator in-between (eg. \"2 + 2\"): ");
+    Console.Write("Please enter two numbers with spaces and a valid operator in-between (e.g. \"2 + 2\"): ");
     string userInput = Console.ReadLine();
     try
     {
