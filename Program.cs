@@ -10,26 +10,22 @@ void Main()
   {
     if (userSelection == 4 && userNumbers.Num2 == 0)
     {
-      Console.WriteLine("Nah, you can't divide by zero.");
-      Console.WriteLine("Press any key to continue...");
+      Console.WriteLine("Nah, you can't divide by zero.");      
     }
     else if (userSelection <= 4)
     {
       Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-      Console.WriteLine("Press any key to continue...");
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");      
     }
     else if (userSelection == 5)
     {
       Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} is {result.Value}.");
-      Console.WriteLine("Press any key to continue...");
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} is {result.Value}.");      
     }
     else if (userSelection == 6)
     {
       Result result = Operate(userSelection, userNumbers.Num1, userNumbers.Num2);
-      Console.WriteLine($"The square root of {userNumbers.Num1} is {result.Value}.");
-      Console.WriteLine("Press any key to continue...");
+      Console.WriteLine($"The square root of {userNumbers.Num1} is {result.Value}.");      
     }
     else if (userSelection == 7)
     {
@@ -50,9 +46,9 @@ void Main()
           result = Operate(4, userNumbers.Num1, userNumbers.Num2);
           break;
       }
-      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-      Console.WriteLine("Press any key to continue...");
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");      
     }
+    Console.WriteLine("Press any key to continue...");
     Console.ReadKey();
     Console.Clear();
     Main();
