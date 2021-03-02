@@ -39,25 +39,19 @@ void Main()
       {
         case "+":
           result = Operate(1, userNumbers.Num1, userNumbers.Num2);
-          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-          Console.WriteLine("Press any key to continue...");
           break;
         case "-":
           result = Operate(2, userNumbers.Num1, userNumbers.Num2);
-          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-          Console.WriteLine("Press any key to continue...");
           break;
         case "*":
           result = Operate(3, userNumbers.Num1, userNumbers.Num2);
-          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-          Console.WriteLine("Press any key to continue...");
           break;
         case "/":
           result = Operate(4, userNumbers.Num1, userNumbers.Num2);
-          Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
-          Console.WriteLine("Press any key to continue...");
           break;
       }
+      Console.WriteLine($"The result of {result.Operation} {userNumbers.Num1} and {userNumbers.Num2} is {result.Value}.");
+      Console.WriteLine("Press any key to continue...");
     }
     Console.ReadKey();
     Console.Clear();
@@ -109,13 +103,10 @@ NumbersInput NumberPrompt(int userMode)
   Console.Clear();
   if (userMode <= 4)
   {
-
     double firstNumber = 0;
     double secondNumber = 0;
-
     Console.Write("Please enter two numbers with a space in-between: ");
     string userInput = Console.ReadLine();
-
     try
     {
       string[] words = userInput.Split(' ');
@@ -139,7 +130,6 @@ NumbersInput NumberPrompt(int userMode)
     double firstNumber = 0;
     Console.Write("Please enter the number: ");
     string userInput = Console.ReadLine();
-
     try
     {
       firstNumber = Double.Parse(userInput);
@@ -159,7 +149,6 @@ NumbersInput NumberPrompt(int userMode)
     double firstNumber = 0;
     double secondNumber = 0;
     string op = null;
-
     Console.Write("Please enter two numbers with spaces and a valid operator in-between (eg. \"2 + 2\"): ");
     string userInput = Console.ReadLine();
     try
@@ -174,7 +163,6 @@ NumbersInput NumberPrompt(int userMode)
       }
       else
       {
-
         return new NumbersInput(firstNumber, secondNumber, op);
       }
     }
@@ -230,9 +218,7 @@ public class NumbersInput
 {
   public double Num1 { get; set; }
   public double Num2 { get; set; }
-
   public string Operator { get; set; }
-
   public NumbersInput(double number1, double number2, string op)
   {
     this.Num1 = number1;
@@ -274,7 +260,6 @@ public class Result
 {
   public string Operation { get; set; }
   public double Value { get; set; }
-
   public Result(string operation, double value)
   {
     this.Operation = operation;
